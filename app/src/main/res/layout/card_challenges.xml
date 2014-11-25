@@ -5,14 +5,20 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:padding="8dp">
+    android:id="@+id/card_relative_layout"
+    android:paddingTop="6dp">
 
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
         android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="6dp"
+        card_view:cardElevation="3dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -23,16 +29,78 @@
                 android:layout_height="100dp"
                 android:id="@+id/imageView"
                 android:src="@drawable/image"
-                android:scaleType="centerCrop" />
+                android:scaleType="matrix" />
 
             <TextView
                 android:id="@+id/info_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                android:text="aaaa"
+                android:text="challenge sub title"
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray"
                 android:layout_below="@+id/imageView"
-                android:layout_centerHorizontal="true" />
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:paddingTop="16dp"
+                android:paddingLeft="16dp"
+                android:paddingBottom="8dp"
+                android:paddingRight="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Challenge title"
+                android:textSize="24sp"
+                android:textColor="#FFFFFF"
+                android:id="@+id/textView"
+                android:layout_above="@+id/info_text"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:padding="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="challenge description blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blablablabla blabla"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:id="@+id/textView2"
+                android:layout_below="@+id/info_text"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:paddingLeft="16dp"
+                android:paddingBottom="16dp"
+                android:paddingRight="16dp"/>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#ffcfcfcf"
+                android:id="@+id/separator"
+                android:layout_below="@+id/textView2"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EXPLORE"
+                android:textColor="@android:color/black"
+                android:id="@+id/exploreButton"
+                android:layout_below="@+id/separator"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                style="?android:attr/borderlessButtonStyle"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SOLVE"
+                android:textColor="@android:color/holo_orange_dark"
+                android:id="@+id/solveButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_alignTop="@+id/exploreButton"
+                android:layout_toRightOf="@+id/exploreButton"
+                android:layout_toEndOf="@+id/exploreButton" />
         </RelativeLayout>
 
 
