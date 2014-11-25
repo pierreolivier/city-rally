@@ -1,31 +1,20 @@
 package com.cityrally.app;
 
 import android.app.Activity;
-import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
 import com.cityrally.app.manager.Manager;
-import com.cityrally.app.views.MapFragment;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.cityrally.app.view.ChallengesFragment;
+import com.cityrally.app.view.MapFragment;
 
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -73,6 +62,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         switch(position) {
             case 0:
                 fragment = new MapFragment();
+                break;
+            case 1:
+                fragment = new ChallengesFragment();
                 break;
             default:
                 fragment = PlaceholderFragment.newInstance(position + 1);
