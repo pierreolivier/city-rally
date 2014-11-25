@@ -1,36 +1,46 @@
 package com.cityrally.app.view;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.cityrally.app.R;
-import org.w3c.dom.Text;
 
 /**
  * Created by po on 11/25/14.
  */
 public class ChanllengeAdapter extends RecyclerView.Adapter<ChanllengeAdapter.ViewHolder> {
+
     private String[] mDataset;
+    private int lastPosition = -1;
+    private Context mContext;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
+        public LinearLayout mContainer;
         public TextView mTextView;
 
         public ViewHolder(View v) {
             super(v);
 
+            mContainer = (LinearLayout) v.findViewById(R.id.card_relative_layout);
             mTextView = (TextView) v.findViewById(R.id.info_text);
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ChanllengeAdapter(String[] myDataset) {
+    public ChanllengeAdapter(String[] myDataset, Context context) {
         mDataset = myDataset;
+        mContext = context;
     }
 
     // Create new views (invoked by the layout manager)
@@ -53,7 +63,17 @@ public class ChanllengeAdapter extends RecyclerView.Adapter<ChanllengeAdapter.Vi
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.mTextView.setText(mDataset[position]);
+        setAnimation(holder.mContainer, position);
+    }
+    private void setAnimation(View viewToAnimate, int position)    {
+        // If the bound view wasn't previously displayed on screen, it's animated
 
+        if (position > lastPosition)
+        {
+            Animation animation = AnimationUtils.loadAnimation(mContext, android.R.anim.slide_in_left);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)

@@ -33,7 +33,7 @@ public class ChallengesFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        mAdapter = new ChanllengeAdapter(new String[] {"test 111", "test 222", "test 333", "test 444"});
+        mAdapter = new ChanllengeAdapter(new String[] {"test 111", "test 222", "test 333", "test 444"}, rootView.getContext());
         mRecyclerView.setAdapter(mAdapter);
 
         return rootView;
