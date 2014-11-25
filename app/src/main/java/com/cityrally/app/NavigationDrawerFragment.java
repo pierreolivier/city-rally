@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.cityrally.app.manager.Manager;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -88,6 +89,13 @@ public class NavigationDrawerFragment extends Fragment {
             Bundle savedInstanceState) {
         RelativeLayout layout = (RelativeLayout) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
+        TextView nameTextView = (TextView) layout.findViewById(R.id.nameTextView);
+        String name = Manager.getUsername();
+        if (name != null) {
+            nameTextView.setText(name);
+        } else {
+            nameTextView.setText(R.string.app_name);
+        }
         mDrawerListView = (ListView) layout.findViewById(R.id.navigationDrawerList);
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

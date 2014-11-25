@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import com.cityrally.app.manager.Manager;
+import com.cityrally.app.views.MapFragment;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -41,6 +43,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Manager.onCreate(this);
+
         setContentView(R.layout.activity_main);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -53,11 +58,29 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        Manager.onDestroy();
+    }
+
+    @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
+
+        Fragment fragment;
+        switch(position) {
+            case 0:
+                fragment = new MapFragment();
+                break;
+            default:
+                fragment = PlaceholderFragment.newInstance(position + 1);
+                break;
+        }
+
         fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                .replace(R.id.container, fragment)
                 .commit();
     }
 
@@ -116,7 +139,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
      */
     public static class PlaceholderFragment extends Fragment {
 
-        private GoogleMap mMap; // Might be null if Google Play services APK is not available.
         private View mView;
 
         /**
@@ -138,20 +160,19 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         }
 
         public PlaceholderFragment() {
+            super();
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             mView = rootView;
-            setUpMapIfNeeded();
             return rootView;
         }
 
         @Override
         public void onResume() {
             super.onResume();
-            setUpMapIfNeeded();
         }
 
         @Override
@@ -159,53 +180,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             super.onAttach(activity);
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
-        }
-
-        /**
-         * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
-         * installed) and the map has not already been instantiated.. This will ensure that we only ever
-         * call {@link #setUpMap()} once when {@link #mMap} is not null.
-         * <p>
-         * If it isn't installed {@link SupportMapFragment} (and
-         * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
-         * install/update the Google Play services APK on their device.
-         * <p>
-         * A user can return to this FragmentActivity after following the prompt and correctly
-         * installing/updating/enabling the Google Play services. Since the FragmentActivity may not
-         * have been completely destroyed during this process (it is likely that it would only be
-         * stopped or paused), {@link #onCreate(Bundle)} may not be called again so we should call this
-         * method in {@link #onResume()} to guarantee that it will be called.
-         */
-        private void setUpMapIfNeeded() {
-            // Do a null check to confirm that we have not already instantiated the map.
-            if (mMap == null) {
-                // Try to obtain the map from the SupportMapFragment.
-                mMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map))
-                        .getMap();
-                // Check if we were successful in obtaining the map.
-                if (mMap != null) {
-                    setUpMap();
-                    Log.e("map", "init map");
-                }
-            }
-        }
-
-        /**
-         * This is where we can add markers or lines, add listeners or move the camera. In this case, we
-         * just add a marker near Africa.
-         * <p>
-         * This should only be called once and when we are sure that {@link #mMap} is not null.
-         */
-        private void setUpMap() {
-            Handler h = new Handler();
-            h.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-                    Log.e("map", "marker");
-                }
-            }, 2000);
-
         }
     }
 
