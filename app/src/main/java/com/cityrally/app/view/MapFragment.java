@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.cityrally.app.MainActivity;
 import com.cityrally.app.R;
+import com.cityrally.app.manager.Manager;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -43,6 +44,13 @@ public class MapFragment extends Fragment {
         ((MainActivity) activity).onSectionAttached(1);
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        Manager.location().setMap(null);
+    }
+
     /**
      * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
      * installed) and the map has not already been instantiated.. This will ensure that we only ever
@@ -63,6 +71,10 @@ public class MapFragment extends Fragment {
         if (mMap == null) {
             // Try to obtain the map from the SupportMapFragment.
             mMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMap();
+
+            Manager.location().setMap(mMap);
+            Manager.location().centerOnLocation();
+
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
                 setUpMap();

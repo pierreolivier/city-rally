@@ -41,9 +41,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         mTitle = getTitle();
 
         // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
     }
 
     @Override
@@ -51,6 +49,20 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         super.onDestroy();
 
         Manager.onDestroy();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Manager.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        Manager.onStop();
     }
 
     @Override
