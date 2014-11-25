@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="android:Theme.Material.Light">
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:colorPrimary">#ff009bff</item>
+        <item name="android:navigationBarColor">#ff0070b8</item>
+        <item name="android:colorPrimaryDark">#ff006db3</item>
+
+        <item name="android:actionBarStyle">@style/actionBar</item>
+        <item name="actionBarStyle">@style/actionBar</item>
+    </style>
+
+    <style name="actionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">#ff009bff</item>
+        <item name="background">@color/action_bar_background</item>
     </style>
 </resources>
