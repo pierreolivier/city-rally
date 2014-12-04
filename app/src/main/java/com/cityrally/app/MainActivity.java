@@ -1,21 +1,28 @@
 package com.cityrally.app;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import com.cityrally.app.location.ReceiveTransitionsIntentService;
 import com.cityrally.app.manager.Manager;
 import com.cityrally.app.view.ChallengesFragment;
 import com.cityrally.app.view.MapFragment;
 import com.cityrally.app.view.MisteryFragment;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -43,6 +50,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        initLocation();
     }
 
     @Override
@@ -140,5 +149,24 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         }*/
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean initLocation() {
+        // Check that Google Play services is available
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+
+        if (ConnectionResult.SUCCESS == resultCode) {
+            Log.e("Location Updates", "Google Play services is available.");
+            return true;
+        } else {
+            Log.e("Location Updates", "Google Play services is NOT available." + resultCode);
+
+            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(resultCode, this, 9000);
+            if (dialog != null) {
+                dialog.show();
+            }
+
+            return false;
+        }
     }
 }

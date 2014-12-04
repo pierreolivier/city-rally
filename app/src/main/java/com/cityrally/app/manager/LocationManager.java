@@ -1,26 +1,40 @@
 package com.cityrally.app.manager;
 
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.IntentSender;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import com.cityrally.app.location.ReceiveTransitionsIntentService;
+import com.cityrally.app.location.SimpleGeofence;
+import com.cityrally.app.location.SimpleGeofenceStore;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
-import com.google.android.gms.location.LocationClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.*;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by po on 10/14/14.
  */
-public class LocationManager implements GooglePlayServicesClient.ConnectionCallbacks,  GooglePlayServicesClient.OnConnectionFailedListener, LocationListener {
+public class LocationManager implements GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, LocationClient.OnAddGeofencesResultListener, LocationClient.OnRemoveGeofencesResultListener {
 
     private static final long UPDATE_INTERVAL = 10 * 1000;
     private static final long FASTEST_INTERVAL = 3 * 1000;
+
+    private static final long SECONDS_PER_HOUR = 60;
+    private static final long MILLISECONDS_PER_SECOND = 1000;
+    private static final long GEOFENCE_EXPIRATION_IN_HOURS = 12;
+    private static final long GEOFENCE_EXPIRATION_TIME =
+            GEOFENCE_EXPIRATION_IN_HOURS *
+                    SECONDS_PER_HOUR *
+                    MILLISECONDS_PER_SECOND;
 
     private LocationClient mLocationClient;
     private final LocationRequest mLocationRequest;
@@ -29,6 +43,10 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
 
     private GoogleMap mMap;
     private boolean mCenterOnLocation;
+
+    private List<Geofence> mGeofenceList;
+    private SimpleGeofenceStore mGeofenceStorage;
+    private PendingIntent mTransitionPendingIntent;
 
     public LocationManager() {
         super();
@@ -42,6 +60,10 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
 
         mLastLocation = null;
         mCenterOnLocation = false;
+
+        mGeofenceStorage = new SimpleGeofenceStore(Manager.activity());
+        mGeofenceList = new ArrayList<Geofence>();
+        createGeofences();
     }
 
     public void connect() {
@@ -69,11 +91,16 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
         Log.e("location m", "connected");
 
         startLocationUpdate();
+
+        mTransitionPendingIntent = getTransitionPendingIntent();
+        mLocationClient.addGeofences(mGeofenceList, mTransitionPendingIntent, this);
     }
 
     @Override
     public void onDisconnected() {
         Log.e("location m", "disconnected");
+
+        mLocationClient.removeGeofences(mTransitionPendingIntent, this);
     }
 
     @Override
@@ -152,5 +179,47 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
 
     public void setMap(GoogleMap mMap) {
         this.mMap = mMap;
+    }
+
+    public void createGeofences() {
+        SimpleGeofence mUIGeofence1  = new SimpleGeofence(
+                "1",
+                49.497018,
+                5.980233,
+                100,
+                GEOFENCE_EXPIRATION_TIME,
+                // This geofence records only entry transitions
+                Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT);
+
+        mGeofenceStorage.setGeofence("1 home", mUIGeofence1);
+        mGeofenceList.add(mUIGeofence1.toGeofence());
+    }
+
+    @Override
+    public void onAddGeofencesResult(int statusCode, String[] strings) {
+        if (LocationStatusCodes.SUCCESS == statusCode) {
+            Log.e("geofences", "success");
+        } else {
+            Log.e("geofences", "error " + statusCode);
+        }
+    }
+
+    private PendingIntent getTransitionPendingIntent() {
+        // Create an explicit Intent
+        Intent intent = new Intent(Manager.activity(), ReceiveTransitionsIntentService.class);
+        /*
+         * Return the PendingIntent
+         */
+        return PendingIntent.getService(Manager.activity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    @Override
+    public void onRemoveGeofencesByRequestIdsResult(int i, String[] strings) {
+
+    }
+
+    @Override
+    public void onRemoveGeofencesByPendingIntentResult(int i, PendingIntent pendingIntent) {
+
     }
 }
