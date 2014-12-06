@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import com.cityrally.app.location.ReceiveTransitionsIntentService;
 import com.cityrally.app.location.SimpleGeofence;
-import com.cityrally.app.location.SimpleGeofenceStore;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.*;
@@ -31,10 +30,7 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
     private static final long SECONDS_PER_HOUR = 60;
     private static final long MILLISECONDS_PER_SECOND = 1000;
     private static final long GEOFENCE_EXPIRATION_IN_HOURS = 12;
-    private static final long GEOFENCE_EXPIRATION_TIME =
-            GEOFENCE_EXPIRATION_IN_HOURS *
-                    SECONDS_PER_HOUR *
-                    MILLISECONDS_PER_SECOND;
+    private static final long GEOFENCE_EXPIRATION_TIME = GEOFENCE_EXPIRATION_IN_HOURS * SECONDS_PER_HOUR * MILLISECONDS_PER_SECOND;
 
     private LocationClient mLocationClient;
     private final LocationRequest mLocationRequest;
@@ -45,7 +41,6 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
     private boolean mCenterOnLocation;
 
     private List<Geofence> mGeofenceList;
-    private SimpleGeofenceStore mGeofenceStorage;
     private PendingIntent mTransitionPendingIntent;
 
     public LocationManager() {
@@ -61,8 +56,8 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
         mLastLocation = null;
         mCenterOnLocation = false;
 
-        mGeofenceStorage = new SimpleGeofenceStore(Manager.activity());
         mGeofenceList = new ArrayList<Geofence>();
+        mTransitionPendingIntent = getTransitionPendingIntent();
         createGeofences();
     }
 
@@ -92,8 +87,7 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
 
         startLocationUpdate();
 
-        mTransitionPendingIntent = getTransitionPendingIntent();
-        mLocationClient.addGeofences(mGeofenceList, mTransitionPendingIntent, this);
+        startGeofencesUpdate();
     }
 
     @Override
@@ -182,17 +176,21 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
     }
 
     public void createGeofences() {
+        mGeofenceList.clear();
+
         SimpleGeofence mUIGeofence1  = new SimpleGeofence(
-                "1",
+                "1 test",
                 49.497018,
                 5.980233,
                 100,
                 GEOFENCE_EXPIRATION_TIME,
-                // This geofence records only entry transitions
                 Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT);
 
-        mGeofenceStorage.setGeofence("1 home", mUIGeofence1);
         mGeofenceList.add(mUIGeofence1.toGeofence());
+    }
+
+    private void startGeofencesUpdate() {
+        mLocationClient.addGeofences(mGeofenceList, mTransitionPendingIntent, this);
     }
 
     @Override
@@ -205,11 +203,8 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
     }
 
     private PendingIntent getTransitionPendingIntent() {
-        // Create an explicit Intent
         Intent intent = new Intent(Manager.activity(), ReceiveTransitionsIntentService.class);
-        /*
-         * Return the PendingIntent
-         */
+
         return PendingIntent.getService(Manager.activity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
@@ -221,5 +216,13 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
     @Override
     public void onRemoveGeofencesByPendingIntentResult(int i, PendingIntent pendingIntent) {
 
+    }
+
+    public void onGeofenceEnter(Geofence geofence) {
+        Log.e("enter", geofence.getRequestId());
+    }
+
+    public void onGeofenceExit(Geofence geofence) {
+        Log.e("exit", geofence.getRequestId());
     }
 }

@@ -1,9 +1,14 @@
 package com.cityrally.app;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.LocationManager;
+import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -52,6 +57,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
         initLocation();
+
+        checkLocation();
     }
 
     @Override
@@ -167,6 +174,55 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             }
 
             return false;
+        }
+    }
+
+    private void checkLocation() {
+        LocationManager locationManager = null;
+        boolean gps = false;
+        boolean network = false;
+
+        if(locationManager == null) {
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        }
+
+        try {
+            gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch (Exception e) {
+
+        }
+
+        Log.e("location", "enable : " + gps);
+
+        try {
+            network = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch (Exception e) {
+
+        }
+
+        if(!gps && !network){
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setCancelable(false);
+            dialog.setMessage(getResources().getString(R.string.gps_network_not_enabled));
+            dialog.setPositiveButton(getResources().getString(R.string.open_location_settings), new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(myIntent);
+
+                    checkLocation();
+                }
+            });
+            dialog.setNegativeButton(getString(R.string.retry), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    checkLocation();
+                }
+            });
+            dialog.show();
+        } else {
+            Manager.location().connect();
         }
     }
 }

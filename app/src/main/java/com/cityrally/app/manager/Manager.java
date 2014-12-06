@@ -31,7 +31,9 @@ public class Manager {
     }
 
     public static void onStop() {
-        Manager.mLocationManager.disconnect();
+        if(Manager.mLocationManager != null) {
+            Manager.mLocationManager.disconnect();
+        }
         Log.e("location", "disconnect");
     }
 
