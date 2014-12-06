@@ -15,6 +15,7 @@ import java.util.List;
 public class Manager {
     private static MainActivity mMainActivity;
     private static LocationManager mLocationManager;
+    private static GameManager mGameManager;
 
     public Manager() {
         super();
@@ -23,6 +24,7 @@ public class Manager {
     public static void onCreate(MainActivity mainActivity) {
         Manager.mMainActivity = mainActivity;
         Manager.mLocationManager = new LocationManager();
+        Manager.mGameManager = new GameManager();
     }
 
     public static void onStart() {
@@ -42,6 +44,7 @@ public class Manager {
 
         Manager.mMainActivity = null;
         Manager.mLocationManager = null;
+        Manager.mGameManager = null;
     }
 
     public static MainActivity activity() {
@@ -50,6 +53,10 @@ public class Manager {
 
     public static LocationManager location() {
         return Manager.mLocationManager;
+    }
+
+    public static GameManager game() {
+        return Manager.mGameManager;
     }
 
     public static String getUsername() {
