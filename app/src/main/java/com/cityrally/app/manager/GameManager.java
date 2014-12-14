@@ -1,6 +1,8 @@
 package com.cityrally.app.manager;
 
+import com.cityrally.app.R;
 import com.cityrally.app.location.SimpleGeofence;
+import com.google.android.gms.location.Geofence;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -12,6 +14,10 @@ import java.util.HashMap;
  */
 public class GameManager {
     private final String CHALLENGES_FILENAME = "save.dat";
+    private static final long SECONDS_PER_HOUR = 60;
+    private static final long MILLISECONDS_PER_SECOND = 1000;
+    private static final long GEOFENCE_EXPIRATION_IN_HOURS = 12;
+    private static final long GEOFENCE_EXPIRATION_TIME = GEOFENCE_EXPIRATION_IN_HOURS * SECONDS_PER_HOUR * MILLISECONDS_PER_SECOND;
 
     private HashMap<String, SimpleGeofence> mGeofences;
     private ArrayList<Challenge> mChallenges;
@@ -23,14 +29,11 @@ public class GameManager {
         initGeofences();
 
         mChallenges = new ArrayList<Challenge>();
-        loadChallenges();
+        /*loadChallenges();
         if (mChallenges.size() == 0) {
             initChallenges();
-        }
-    }
-
-    private void initGeofences() {
-
+        }*/
+        initChallenges();
     }
 
     public void saveChallenges() {
@@ -64,8 +67,20 @@ public class GameManager {
             e.printStackTrace();
         }
     }
-    private void initChallenges() {
 
+    public void initGeofences() {
+        mGeofences.clear();
+        mGeofences.put("1", new SimpleGeofence(
+                "1 test",
+                49.497018,
+                5.980233,
+                100,
+                GEOFENCE_EXPIRATION_TIME,
+                Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT));
+    }
+
+    private void initChallenges() {
+        mChallenges.add(new Challenge(R.drawable.eiffel_tower, R.string.c_title_1, R.string.c_subtitle_1, R.string.c_text_1, "1", "photo", true, true));
     }
 
     public Collection<SimpleGeofence> getGeofences() {
@@ -74,5 +89,9 @@ public class GameManager {
 
     public SimpleGeofence getGeofenceWithId(String id) {
         return mGeofences.get(id);
+    }
+
+    public ArrayList<Challenge> getChallenges() {
+        return mChallenges;
     }
 }

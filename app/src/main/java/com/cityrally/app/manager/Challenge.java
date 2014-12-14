@@ -1,5 +1,6 @@
 package com.cityrally.app.manager;
 
+import android.util.Log;
 import com.cityrally.app.location.SimpleGeofence;
 import com.google.android.gms.location.Geofence;
 
@@ -17,16 +18,18 @@ public class Challenge implements Serializable {
     private int subtitle;
     private int text;
     private String geofenceId;
+    private String gameId;
 
     private boolean unlocked;
     private boolean solved;
 
-    public Challenge(int image, int title, int subtitle, int text, String geofenceId, boolean unlocked, boolean solved) {
+    public Challenge(int image, int title, int subtitle, int text, String geofenceId, String gameId, boolean unlocked, boolean solved) {
         this.image = image;
         this.title = title;
         this.subtitle = subtitle;
         this.text = text;
         this.geofenceId = geofenceId;
+        this.gameId = gameId;
         this.unlocked = unlocked;
         this.solved = solved;
     }
@@ -73,6 +76,14 @@ public class Challenge implements Serializable {
 
     public void setGeofenceId(String geofenceId) {
         this.geofenceId = geofenceId;
+    }
+
+    public String getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
     }
 
     public boolean isUnlocked() {

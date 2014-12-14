@@ -48,7 +48,9 @@ public class MapFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
 
-        Manager.location().setMap(null);
+        if (Manager.location() != null) {
+            Manager.location().setMap(null);
+        }
     }
 
     /**

@@ -40,7 +40,6 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
     private GoogleMap mMap;
     private boolean mCenterOnLocation;
 
-    private List<Geofence> mGeofenceList;
     private PendingIntent mTransitionPendingIntent;
 
     public LocationManager() {
@@ -56,9 +55,11 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
         mLastLocation = null;
         mCenterOnLocation = false;
 
-        mGeofenceList = new ArrayList<Geofence>();
         mTransitionPendingIntent = getTransitionPendingIntent();
-        createGeofences();
+    }
+
+    public void onCreate() {
+
     }
 
     public void connect() {
@@ -175,22 +176,12 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
         this.mMap = mMap;
     }
 
-    public void createGeofences() {
-        mGeofenceList.clear();
-
-        SimpleGeofence mUIGeofence1  = new SimpleGeofence(
-                "1 test",
-                49.497018,
-                5.980233,
-                100,
-                GEOFENCE_EXPIRATION_TIME,
-                Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT);
-
-        mGeofenceList.add(mUIGeofence1.toGeofence());
-    }
-
     private void startGeofencesUpdate() {
-        mLocationClient.addGeofences(mGeofenceList, mTransitionPendingIntent, this);
+        List<Geofence> geofences = new ArrayList<Geofence>();
+        for (SimpleGeofence geofence : Manager.game().getGeofences()) {
+            geofences.add(geofence.toGeofence());
+        }
+        mLocationClient.addGeofences(geofences, mTransitionPendingIntent, this);
     }
 
     @Override

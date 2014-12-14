@@ -15,4 +15,8 @@
     <string name="open_location_settings">Settings</string>
     <string name="retry">Retry</string>
 
+    <string name="c_title_1">Start with Paris</string>
+    <string name="c_subtitle_1">Start with Paris</string>
+    <string name="c_text_1">Paris is huge city with a lot of things to do! We will start with the Eiffel Tower.</string>
+
 </resources>

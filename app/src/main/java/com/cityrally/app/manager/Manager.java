@@ -25,6 +25,8 @@ public class Manager {
         Manager.mMainActivity = mainActivity;
         Manager.mLocationManager = new LocationManager();
         Manager.mGameManager = new GameManager();
+
+        Manager.mLocationManager.onCreate();
     }
 
     public static void onStart() {

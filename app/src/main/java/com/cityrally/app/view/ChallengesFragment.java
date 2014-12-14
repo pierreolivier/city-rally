@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.cityrally.app.MainActivity;
 import com.cityrally.app.R;
+import com.cityrally.app.manager.Manager;
 
 /**
  * Created by po on 11/25/14.
@@ -34,7 +35,7 @@ public class ChallengesFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        mAdapter = new ChanllengeAdapter(new String[] {"test 111", "test 222", "test 333", "test 444"}, rootView.getContext());
+        mAdapter = new ChallengeAdapter(Manager.game().getChallenges(), rootView.getContext());
         mRecyclerView.setAdapter(mAdapter);
 
         return rootView;

@@ -27,18 +27,18 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
-                android:id="@+id/imageView"
-                android:src="@drawable/image"
-                android:scaleType="matrix" />
+                android:id="@+id/info_image"
+                android:src="@drawable/unknown"
+                android:scaleType="centerCrop" />
 
             <TextView
-                android:id="@+id/info_text"
+                android:id="@+id/info_subtile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="challenge sub title"
                 android:textSize="14sp"
                 android:textColor="@android:color/darker_gray"
-                android:layout_below="@+id/imageView"
+                android:layout_below="@+id/info_image"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:paddingTop="16dp"
@@ -52,8 +52,8 @@
                 android:text="Challenge title"
                 android:textSize="24sp"
                 android:textColor="#FFFFFF"
-                android:id="@+id/textView"
-                android:layout_above="@+id/info_text"
+                android:id="@+id/info_title"
+                android:layout_above="@+id/info_subtile"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:padding="16dp"/>
@@ -64,8 +64,8 @@
                 android:text="challenge description blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blablablabla blabla"
                 android:textSize="14sp"
                 android:textColor="@android:color/black"
-                android:id="@+id/textView2"
-                android:layout_below="@+id/info_text"
+                android:id="@+id/info_text"
+                android:layout_below="@+id/info_subtile"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:paddingLeft="16dp"
@@ -77,7 +77,7 @@
                 android:layout_height="1dp"
                 android:background="#ffcfcfcf"
                 android:id="@+id/separator"
-                android:layout_below="@+id/textView2"
+                android:layout_below="@+id/info_text"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
 
@@ -102,6 +102,18 @@
                 android:layout_alignTop="@+id/exploreButton"
                 android:layout_toRightOf="@+id/exploreButton"
                 android:layout_toEndOf="@+id/exploreButton" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/info_solved"
+                android:src="@drawable/check"
+                android:layout_below="@+id/info_text"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_margin="4dp" />
         </RelativeLayout>
 
 
