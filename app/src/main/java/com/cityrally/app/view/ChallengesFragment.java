@@ -18,7 +18,7 @@ import com.cityrally.app.manager.Manager;
  */
 public class ChallengesFragment extends Fragment {
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    public static RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     public ChallengesFragment() {
@@ -39,6 +39,13 @@ public class ChallengesFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
 
         return rootView;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        mAdapter = null;
     }
 
     @Override

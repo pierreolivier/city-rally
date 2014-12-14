@@ -211,6 +211,12 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
 
     public void onGeofenceEnter(Geofence geofence) {
         Log.e("enter", geofence.getRequestId());
+
+        Challenge challenge = Manager.game().getChallengesMap().get(geofence.getRequestId());
+
+        if (challenge != null) {
+            Manager.game().onUnlock(challenge, geofence);
+        }
     }
 
     public void onGeofenceExit(Geofence geofence) {

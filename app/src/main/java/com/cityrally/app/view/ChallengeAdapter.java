@@ -15,6 +15,7 @@ import com.cityrally.app.R;
 import com.cityrally.app.manager.Challenge;
 import com.cityrally.app.manager.Manager;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ import java.util.List;
  */
 public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.ViewHolder> {
 
-    private List<Challenge> mChallenges;
+    private Challenge[] mChallenges;
     private int lastPosition = -1;
     private Context mContext;
 
@@ -55,8 +56,8 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.View
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ChallengeAdapter(List<Challenge> challenges, Context context) {
-        mChallenges = challenges;
+    public ChallengeAdapter(Collection<Challenge> challenges, Context context) {
+        mChallenges = challenges.toArray(new Challenge[challenges.size()]);
         mContext = context;
     }
 
@@ -80,7 +81,7 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.View
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         //holder.mTextView.setText(mDataset[position]);
-        Challenge challenge = mChallenges.get(position);
+        Challenge challenge = mChallenges[position];
 
         holder.mTitleView.setText(challenge.getTitle());
         holder.mSubTitleView.setText(challenge.getSubtitle());
@@ -91,6 +92,7 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.View
             holder.mSolveButton.setTextColor(Manager.activity().getResources().getColor(R.color.locked_challenge));
         } else {
             holder.mSolveButton.setEnabled(true);
+            holder.mSolveButton.setTextColor(Manager.activity().getResources().getColor(android.R.color.holo_orange_dark));
             holder.mImageView.setImageResource(challenge.getImage());
         }
 
@@ -102,6 +104,7 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.View
 
         setAnimation(holder.mContainer, position);
     }
+
     private void setAnimation(View viewToAnimate, int position)    {
         // If the bound view wasn't previously displayed on screen, it's animated
 
@@ -116,6 +119,6 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.View
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mChallenges.size();
+        return mChallenges.length;
     }
 }

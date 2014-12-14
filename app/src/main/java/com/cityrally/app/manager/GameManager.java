@@ -1,7 +1,9 @@
 package com.cityrally.app.manager;
 
+import android.widget.Toast;
 import com.cityrally.app.R;
 import com.cityrally.app.location.SimpleGeofence;
+import com.cityrally.app.view.ChallengesFragment;
 import com.google.android.gms.location.Geofence;
 
 import java.io.*;
@@ -20,7 +22,7 @@ public class GameManager {
     private static final long GEOFENCE_EXPIRATION_TIME = GEOFENCE_EXPIRATION_IN_HOURS * SECONDS_PER_HOUR * MILLISECONDS_PER_SECOND;
 
     private HashMap<String, SimpleGeofence> mGeofences;
-    private ArrayList<Challenge> mChallenges;
+    private HashMap<String, Challenge> mChallenges;
 
     public GameManager() {
         super();
@@ -28,7 +30,7 @@ public class GameManager {
         mGeofences = new HashMap<String, SimpleGeofence>();
         initGeofences();
 
-        mChallenges = new ArrayList<Challenge>();
+        mChallenges = new HashMap<String, Challenge>();
         /*loadChallenges();
         if (mChallenges.size() == 0) {
             initChallenges();
@@ -55,7 +57,7 @@ public class GameManager {
 
         try {
             input = new ObjectInputStream(new FileInputStream(new File(new File(Manager.activity().getFilesDir(),"") + File.separator + CHALLENGES_FILENAME)));
-            mChallenges = (ArrayList<Challenge>) input.readObject();
+            mChallenges = (HashMap<String, Challenge>) input.readObject();
             input.close();
         } catch (StreamCorruptedException e) {
             e.printStackTrace();
@@ -71,7 +73,7 @@ public class GameManager {
     public void initGeofences() {
         mGeofences.clear();
         mGeofences.put("1", new SimpleGeofence(
-                "1 test",
+                "1",
                 49.497018,
                 5.980233,
                 100,
@@ -80,7 +82,7 @@ public class GameManager {
     }
 
     private void initChallenges() {
-        mChallenges.add(new Challenge(R.drawable.eiffel_tower, R.string.c_title_1, R.string.c_subtitle_1, R.string.c_text_1, "1", "photo", true, true));
+        mChallenges.put("1", new Challenge(R.drawable.eiffel_tower, R.string.c_title_1, R.string.c_subtitle_1, R.string.c_text_1, "1", "photo", false, false));
     }
 
     public Collection<SimpleGeofence> getGeofences() {
@@ -91,7 +93,30 @@ public class GameManager {
         return mGeofences.get(id);
     }
 
-    public ArrayList<Challenge> getChallenges() {
+    public Collection<Challenge> getChallenges() {
+        return mChallenges.values();
+    }
+
+    public HashMap<String, Challenge> getChallengesMap() {
         return mChallenges;
+    }
+
+    public void setmChallenges(HashMap<String, Challenge> mChallenges) {
+        this.mChallenges = mChallenges;
+    }
+
+    public void onUnlock(final Challenge challenge, Geofence geofence) {
+        challenge.setUnlocked(true);
+
+        Manager.activity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(Manager.activity(), R.string.challenge_unlocked, Toast.LENGTH_LONG).show();
+
+                if (ChallengesFragment.mAdapter != null) {
+                    ChallengesFragment.mAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 }
