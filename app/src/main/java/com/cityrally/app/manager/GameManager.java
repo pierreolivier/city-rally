@@ -101,10 +101,6 @@ public class GameManager {
         return mChallenges;
     }
 
-    public void setmChallenges(HashMap<String, Challenge> mChallenges) {
-        this.mChallenges = mChallenges;
-    }
-
     public void onUnlock(final Challenge challenge, Geofence geofence) {
         challenge.setUnlocked(true);
 

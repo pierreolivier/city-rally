@@ -75,6 +75,7 @@ public class MapFragment extends Fragment {
             mMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMap();
 
             Manager.location().setMap(mMap);
+            Manager.location().setDefaultLocation();
             Manager.location().centerOnLocation();
 
             // Check if we were successful in obtaining the map.
@@ -92,6 +93,6 @@ public class MapFragment extends Fragment {
      */
     private void setUpMap() {
         mMap.setMyLocationEnabled(true);
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
     }
 }

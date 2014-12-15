@@ -1,6 +1,7 @@
 package com.cityrally.app.view;
 
 import android.content.Context;
+import android.location.Location;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +13,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.cityrally.app.R;
+import com.cityrally.app.location.SimpleGeofence;
 import com.cityrally.app.manager.Challenge;
 import com.cityrally.app.manager.Manager;
+import com.google.android.gms.maps.model.Marker;
 
 import java.util.Collection;
 import java.util.List;
@@ -81,7 +84,7 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.View
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         //holder.mTextView.setText(mDataset[position]);
-        Challenge challenge = mChallenges[position];
+        final Challenge challenge = mChallenges[position];
 
         holder.mTitleView.setText(challenge.getTitle());
         holder.mSubTitleView.setText(challenge.getSubtitle());
@@ -101,6 +104,17 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.View
         } else {
             holder.mSolvedView.setVisibility(View.INVISIBLE);
         }
+
+        holder.exploreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SimpleGeofence geofence = challenge.getGeofence();
+                Manager.location().addMarker(challenge.getId(), Manager.activity().getText(challenge.getTitle()).toString(), geofence.getLatitude(), geofence.getLongitude());
+                Manager.location().moveCamera(geofence.getLatitude(), geofence.getLongitude());
+
+                Manager.activity().getNavigationDrawerFragment().selectItem(0);
+            }
+        });
 
         setAnimation(holder.mContainer, position);
     }

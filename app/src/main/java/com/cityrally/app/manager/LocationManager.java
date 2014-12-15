@@ -15,8 +15,11 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -24,8 +27,8 @@ import java.util.List;
  */
 public class LocationManager implements GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, LocationClient.OnAddGeofencesResultListener, LocationClient.OnRemoveGeofencesResultListener {
 
-    private static final long UPDATE_INTERVAL = 10 * 1000;
-    private static final long FASTEST_INTERVAL = 3 * 1000;
+    private static final long UPDATE_INTERVAL = 3 * 1000;
+    private static final long FASTEST_INTERVAL = 2 * 1000;
 
     private static final long SECONDS_PER_HOUR = 60;
     private static final long MILLISECONDS_PER_SECOND = 1000;
@@ -39,6 +42,13 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
 
     private GoogleMap mMap;
     private boolean mCenterOnLocation;
+
+    private boolean mMoveCamera;
+    private double mMoveLatitude;
+    private double mMoveLongitude;
+
+    private HashMap<String, Marker> mMarkers;
+    private Runnable mAddMarkerAction;
 
     private PendingIntent mTransitionPendingIntent;
 
@@ -54,6 +64,12 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
 
         mLastLocation = null;
         mCenterOnLocation = false;
+        mMoveCamera = false;
+        mMoveLatitude = 0.0d;
+        mMoveLongitude = 0.0d;
+
+        mMarkers = new HashMap<String, Marker>();
+        mAddMarkerAction = null;
 
         mTransitionPendingIntent = getTransitionPendingIntent();
     }
@@ -121,14 +137,32 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
 
         Log.v("location test", msg);
 
-        if (mCenterOnLocation) {
+        /*if (mCenterOnLocation) {
             mCenterOnLocation = false;
 
             moveCamera(location);
+        }*/
+        if (mMoveCamera && mMap != null) {
+            mMoveCamera = false;
+            mCenterOnLocation = false;
+            moveCamera(mMoveLatitude, mMoveLongitude);
+        } else if (mCenterOnLocation && mMap != null) {
+            mCenterOnLocation = false;
+            moveCamera(location);
+        }
+
+        if(mAddMarkerAction != null) {
+            mAddMarkerAction.run();
+            mAddMarkerAction = null;
         }
     }
 
     public void centerOnLocation() {
+        /*if (mLastLocation != null) {
+            moveCamera(mLastLocation);
+        } else {
+            mCenterOnLocation = true;
+        }*/
         if (mLastLocation != null) {
             moveCamera(mLastLocation);
         } else {
@@ -137,8 +171,12 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
     }
 
     public void moveCamera(Location location) {
+        moveCamera(location.getLatitude(), location.getLongitude());
+    }
+
+    public void moveCamera(double latitude, double longitude) {
         if (mMap != null) {
-            CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
+            CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude));
             final CameraUpdate zoom = CameraUpdateFactory.zoomTo(11);
             mMap.animateCamera(center, new GoogleMap.CancelableCallback() {
                 @Override
@@ -153,6 +191,10 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
 
                 }
             });
+        } else {
+            mMoveCamera = true;
+            mMoveLatitude = latitude;
+            mMoveLongitude = longitude;
         }
     }
 
@@ -221,5 +263,30 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
 
     public void onGeofenceExit(Geofence geofence) {
         Log.e("exit", geofence.getRequestId());
+    }
+
+    public void setDefaultLocation() {
+        moveCamera(49.614114d, 6.128918d);
+    }
+
+    public void addMarker(final String id, final String title, final double latitude, final double longitude) {
+        if (mMap != null) {
+            mMarkers.put(id, mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title(title)));
+        } else {
+            mAddMarkerAction = new Runnable() {
+                @Override
+                public void run() {
+                    mMarkers.put(id, mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title(title)));
+                }
+            };
+        }
+    }
+
+    public void removeMarker(String id) {
+        Marker marker = mMarkers.get(id);
+        if (marker != null) {
+            marker.remove();
+            mMarkers.remove(id);
+        }
     }
 }

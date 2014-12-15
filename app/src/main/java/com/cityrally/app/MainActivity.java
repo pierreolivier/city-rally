@@ -225,4 +225,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             Manager.location().connect();
         }
     }
+
+    public NavigationDrawerFragment getNavigationDrawerFragment() {
+        return mNavigationDrawerFragment;
+    }
 }

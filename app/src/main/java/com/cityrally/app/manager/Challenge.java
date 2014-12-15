@@ -13,6 +13,7 @@ import java.util.HashMap;
 public class Challenge implements Serializable {
     private static final long serialVersionUID = -29238982928391L;
 
+    private String id;
     private int image;
     private int title;
     private int subtitle;
@@ -24,6 +25,7 @@ public class Challenge implements Serializable {
     private boolean solved;
 
     public Challenge(int image, int title, int subtitle, int text, String geofenceId, String gameId, boolean unlocked, boolean solved) {
+        this.id = geofenceId;
         this.image = image;
         this.title = title;
         this.subtitle = subtitle;
@@ -36,6 +38,14 @@ public class Challenge implements Serializable {
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public int getImage() {
