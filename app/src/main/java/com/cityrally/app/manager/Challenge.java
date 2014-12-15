@@ -24,12 +24,9 @@ public class Challenge implements Serializable {
     private boolean unlocked;
     private boolean solved;
 
-    public Challenge(int image, int title, int subtitle, int text, String geofenceId, String gameId, boolean unlocked, boolean solved) {
+    public Challenge(String geofenceId, String gameId, boolean unlocked, boolean solved) {
         this.id = geofenceId;
-        this.image = image;
-        this.title = title;
-        this.subtitle = subtitle;
-        this.text = text;
+
         this.geofenceId = geofenceId;
         this.gameId = gameId;
         this.unlocked = unlocked;
@@ -114,6 +111,13 @@ public class Challenge implements Serializable {
 
     public SimpleGeofence getGeofence() {
         return Manager.game().getGeofenceWithId(this.geofenceId);
+    }
+
+    public void setResources(int image, int title, int subtitle, int text) {
+        this.image = image;
+        this.title = title;
+        this.subtitle = subtitle;
+        this.text = text;
     }
 
     @Override

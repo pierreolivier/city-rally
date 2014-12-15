@@ -108,6 +108,10 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.View
         holder.exploreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (challenge.getId().equals("1")) {
+                    Manager.location().startScenario1();
+                }
+
                 SimpleGeofence geofence = challenge.getGeofence();
                 Manager.location().addMarker(challenge.getId(), Manager.activity().getText(challenge.getTitle()).toString(), geofence.getLatitude(), geofence.getLongitude());
                 Manager.location().moveCamera(geofence.getLatitude(), geofence.getLongitude());

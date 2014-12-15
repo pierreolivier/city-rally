@@ -31,11 +31,12 @@ public class GameManager {
         initGeofences();
 
         mChallenges = new HashMap<String, Challenge>();
-        /*loadChallenges();
+        //loadChallenges();
         if (mChallenges.size() == 0) {
             initChallenges();
-        }*/
-        initChallenges();
+        }
+        reloadChallengesResources();
+        saveChallenges();
     }
 
     public void saveChallenges() {
@@ -74,15 +75,21 @@ public class GameManager {
         mGeofences.clear();
         mGeofences.put("1", new SimpleGeofence(
                 "1",
-                49.497018,
-                5.980233,
-                100,
+                48.858366,
+                2.294460,
+                50,
                 GEOFENCE_EXPIRATION_TIME,
-                Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT));
+                Geofence.GEOFENCE_TRANSITION_ENTER
+                        | Geofence.GEOFENCE_TRANSITION_DWELL
+                        | Geofence.GEOFENCE_TRANSITION_EXIT));
     }
 
     private void initChallenges() {
-        mChallenges.put("1", new Challenge(R.drawable.eiffel_tower, R.string.c_title_1, R.string.c_subtitle_1, R.string.c_text_1, "1", "photo", false, false));
+        mChallenges.put("1", new Challenge("1", "photo", false, false));
+    }
+
+    private void reloadChallengesResources() {
+        mChallenges.get("1").setResources(R.drawable.eiffel_tower, R.string.c_title_1, R.string.c_subtitle_1, R.string.c_text_1);
     }
 
     public Collection<SimpleGeofence> getGeofences() {
@@ -102,17 +109,20 @@ public class GameManager {
     }
 
     public void onUnlock(final Challenge challenge, Geofence geofence) {
-        challenge.setUnlocked(true);
+        if (!challenge.isUnlocked()) {
+            challenge.setUnlocked(true);
+            saveChallenges();
 
-        Manager.activity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(Manager.activity(), R.string.challenge_unlocked, Toast.LENGTH_LONG).show();
+            Manager.activity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(Manager.activity(), R.string.challenge_unlocked, Toast.LENGTH_LONG).show();
 
-                if (ChallengesFragment.mAdapter != null) {
-                    ChallengesFragment.mAdapter.notifyDataSetChanged();
+                    if (ChallengesFragment.mAdapter != null) {
+                        ChallengesFragment.mAdapter.notifyDataSetChanged();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 }

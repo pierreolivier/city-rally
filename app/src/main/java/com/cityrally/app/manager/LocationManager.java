@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -102,6 +103,8 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
     public void onConnected(Bundle bundle) {
         Log.e("location m", "connected");
 
+        mLocationClient.setMockMode(true);
+
         startLocationUpdate();
 
         startGeofencesUpdate();
@@ -177,7 +180,8 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
     public void moveCamera(double latitude, double longitude) {
         if (mMap != null) {
             CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude));
-            final CameraUpdate zoom = CameraUpdateFactory.zoomTo(11);
+            final CameraUpdate zoom = CameraUpdateFactory.zoomTo(13);
+            mMap.stopAnimation();
             mMap.animateCamera(center, new GoogleMap.CancelableCallback() {
                 @Override
                 public void onFinish() {
@@ -266,7 +270,7 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
     }
 
     public void setDefaultLocation() {
-        moveCamera(49.614114d, 6.128918d);
+        moveCamera(48.865569d, 2.321180d);
     }
 
     public void addMarker(final String id, final String title, final double latitude, final double longitude) {
@@ -288,5 +292,43 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
             marker.remove();
             mMarkers.remove(id);
         }
+    }
+
+    public Location createLocation(double lat, double lng, float accuracy) {
+        Location newLocation = new Location("network");
+        newLocation.setLatitude(lat);
+        newLocation.setLongitude(lng);
+        newLocation.setTime(new Date().getTime());
+        newLocation.setAccuracy(3.0f);
+        newLocation.setElapsedRealtimeNanos(System.nanoTime());
+        return newLocation;
+    }
+
+    public void setMockLocation(double latitude, double longitude) {
+        Location location = createLocation(latitude, longitude, 3);
+        mLocationClient.setMockLocation(location);
+        //onLocationChanged(location);
+        Log.e("mock", "new location");
+    }
+
+    public void setMockLocation(Location location) {
+        mLocationClient.setMockLocation(location);
+    }
+
+    public void startScenario1() {
+        new Thread() {
+            public void run() {
+                try {
+                    sleep(2000);
+                    setMockLocation(48.862662, 2.311180);
+                    sleep(2000);
+                    setMockLocation(48.862407, 2.301825);
+                    sleep(10000);
+                    setMockLocation(48.858596, 2.293757);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
 }
