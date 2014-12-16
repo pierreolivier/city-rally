@@ -279,7 +279,7 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
     }
 
     public void setDefaultLocation() {
-        moveCamera(48.865569d, 2.321180d);
+        moveCamera(48.865569d, 2.321180d, true);
     }
 
     public void addMarker(final String id, final String title, final double latitude, final double longitude) {

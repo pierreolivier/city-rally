@@ -21,4 +21,12 @@
     <string name="c_subtitle_1">Start with Paris</string>
     <string name="c_text_1">Paris is huge city with a lot of things to do! We will start with the Eiffel Tower.</string>
 
+    <string name="c_title_2">Paris step 2</string>
+    <string name="c_subtitle_2">Paris step 2</string>
+    <string name="c_text_2">blablabla blablablabl ablablablablablab lablablablab labla</string>
+
+    <string name="c_title_3">Paris step 3</string>
+    <string name="c_subtitle_3">Paris step 3</string>
+    <string name="c_text_3">blablabla blablablabl ablablablablablab lablablablab labla</string>
+
 </resources>

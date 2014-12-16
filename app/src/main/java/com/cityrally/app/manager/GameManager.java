@@ -73,22 +73,35 @@ public class GameManager {
 
     public void initGeofences() {
         mGeofences.clear();
-        mGeofences.put("1", new SimpleGeofence(
+        mGeofences.put("1", new SimpleGeofence( // eiffel tower
                 "1",
-                48.858366,
-                2.294460,
+                48.858366, 2.294460,
+                50,
+                GEOFENCE_EXPIRATION_TIME, Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT));
+
+        mGeofences.put("2", new SimpleGeofence( // arc de triomphe
+                "2",
+                48.873789, 2.295030,
+                50,
+                GEOFENCE_EXPIRATION_TIME, Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT));
+
+        mGeofences.put("3", new SimpleGeofence( // notre dame
+                "3",
+                48.853317, 2.348968,
                 100,
-                GEOFENCE_EXPIRATION_TIME,
-                Geofence.GEOFENCE_TRANSITION_ENTER
-                        | Geofence.GEOFENCE_TRANSITION_EXIT));
+                GEOFENCE_EXPIRATION_TIME, Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT));
     }
 
     private void initChallenges() {
         mChallenges.put("1", new Challenge("1", "photo", false, false));
+        mChallenges.put("2", new Challenge("2", "compass", false, false));
+        mChallenges.put("3", new Challenge("3", "question", false, false));
     }
 
     private void reloadChallengesResources() {
         mChallenges.get("1").setResources(R.drawable.eiffel_tower, R.string.c_title_1, R.string.c_subtitle_1, R.string.c_text_1);
+        mChallenges.get("2").setResources(R.drawable.arc, R.string.c_title_2, R.string.c_subtitle_2, R.string.c_text_2);
+        mChallenges.get("3").setResources(R.drawable.dame, R.string.c_title_2, R.string.c_subtitle_3, R.string.c_text_3);
     }
 
     public Collection<SimpleGeofence> getGeofences() {
