@@ -77,10 +77,9 @@ public class GameManager {
                 "1",
                 48.858366,
                 2.294460,
-                50,
+                100,
                 GEOFENCE_EXPIRATION_TIME,
                 Geofence.GEOFENCE_TRANSITION_ENTER
-                        | Geofence.GEOFENCE_TRANSITION_DWELL
                         | Geofence.GEOFENCE_TRANSITION_EXIT));
     }
 

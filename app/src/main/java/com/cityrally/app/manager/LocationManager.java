@@ -103,7 +103,7 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
     public void onConnected(Bundle bundle) {
         Log.e("location m", "connected");
 
-        mLocationClient.setMockMode(true);
+        // mLocationClient.setMockMode(true);
 
         startLocationUpdate();
 
@@ -173,28 +173,37 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
         }
     }
 
-    public void moveCamera(Location location) {
-        moveCamera(location.getLatitude(), location.getLongitude());
+    public void moveCamera(double latitude, double longitude) {
+        moveCamera(latitude, longitude, false);
     }
 
-    public void moveCamera(double latitude, double longitude) {
+    public void moveCamera(Location location) {
+        moveCamera(location.getLatitude(), location.getLongitude(), false);
+    }
+
+    public void moveCamera(double latitude, double longitude, boolean set) {
         if (mMap != null) {
             CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude));
             final CameraUpdate zoom = CameraUpdateFactory.zoomTo(13);
             mMap.stopAnimation();
-            mMap.animateCamera(center, new GoogleMap.CancelableCallback() {
-                @Override
-                public void onFinish() {
-                    if (mMap != null) {
-                        mMap.animateCamera(zoom);
+            if (set) {
+                mMap.moveCamera(center);
+                mMap.moveCamera(zoom);
+            } else {
+                mMap.animateCamera(center, new GoogleMap.CancelableCallback() {
+                    @Override
+                    public void onFinish() {
+                        if (mMap != null) {
+                            mMap.animateCamera(zoom);
+                        }
                     }
-                }
 
-                @Override
-                public void onCancel() {
+                    @Override
+                    public void onCancel() {
 
-                }
-            });
+                    }
+                });
+            }
         } else {
             mMoveCamera = true;
             mMoveLatitude = latitude;
@@ -306,13 +315,9 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
 
     public void setMockLocation(double latitude, double longitude) {
         Location location = createLocation(latitude, longitude, 3);
-        mLocationClient.setMockLocation(location);
+        //mLocationClient.setMockLocation(location);
         //onLocationChanged(location);
-        Log.e("mock", "new location");
-    }
-
-    public void setMockLocation(Location location) {
-        mLocationClient.setMockLocation(location);
+        //Log.e("mock", "new location");
     }
 
     public void startScenario1() {
