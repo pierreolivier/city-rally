@@ -29,4 +29,8 @@
     <string name="c_subtitle_3">Paris step 3</string>
     <string name="c_text_3">blablabla blablablabl ablablablablablab lablablablab labla</string>
 
+    <string name="m_title">Mistery</string>
+    <string name="m_subtitle">Paris</string>
+    <string name="m_text">blablabla blablablabl ablablablablablab lablablablab labla</string>
+
 </resources>

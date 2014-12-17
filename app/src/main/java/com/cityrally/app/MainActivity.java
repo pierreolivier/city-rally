@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import com.cityrally.app.game.PhotoGame;
 import com.cityrally.app.location.ReceiveTransitionsIntentService;
 import com.cityrally.app.manager.Manager;
 import com.cityrally.app.view.ChallengesFragment;
@@ -228,5 +229,13 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     public NavigationDrawerFragment getNavigationDrawerFragment() {
         return mNavigationDrawerFragment;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PhotoGame.REQUEST_IMAGE_CAPTURE) {
+            PhotoGame photoGame = (PhotoGame) Manager.game().getGameWithId("photo");
+            photoGame.onResult(resultCode == RESULT_OK);
+        }
     }
 }

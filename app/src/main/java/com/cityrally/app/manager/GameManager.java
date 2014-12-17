@@ -2,6 +2,8 @@ package com.cityrally.app.manager;
 
 import android.widget.Toast;
 import com.cityrally.app.R;
+import com.cityrally.app.game.Game;
+import com.cityrally.app.game.PhotoGame;
 import com.cityrally.app.location.SimpleGeofence;
 import com.cityrally.app.view.ChallengesFragment;
 import com.google.android.gms.location.Geofence;
@@ -23,6 +25,7 @@ public class GameManager {
 
     private HashMap<String, SimpleGeofence> mGeofences;
     private HashMap<String, Challenge> mChallenges;
+    private HashMap<String, Game> mGames;
 
     public GameManager() {
         super();
@@ -37,6 +40,9 @@ public class GameManager {
         }
         reloadChallengesResources();
         saveChallenges();
+
+        mGames = new HashMap<String, Game>();
+        initGames();
     }
 
     public void saveChallenges() {
@@ -101,7 +107,11 @@ public class GameManager {
     private void reloadChallengesResources() {
         mChallenges.get("1").setResources(R.drawable.eiffel_tower, R.string.c_title_1, R.string.c_subtitle_1, R.string.c_text_1);
         mChallenges.get("2").setResources(R.drawable.arc, R.string.c_title_2, R.string.c_subtitle_2, R.string.c_text_2);
-        mChallenges.get("3").setResources(R.drawable.dame, R.string.c_title_2, R.string.c_subtitle_3, R.string.c_text_3);
+        mChallenges.get("3").setResources(R.drawable.dame, R.string.c_title_3, R.string.c_subtitle_3, R.string.c_text_3);
+    }
+
+    private void initGames() {
+        mGames.put("photo", new PhotoGame());
     }
 
     public Collection<SimpleGeofence> getGeofences() {
@@ -110,6 +120,10 @@ public class GameManager {
 
     public SimpleGeofence getGeofenceWithId(String id) {
         return mGeofences.get(id);
+    }
+
+    public Game getGameWithId(String id) {
+        return mGames.get(id);
     }
 
     public Collection<Challenge> getChallenges() {

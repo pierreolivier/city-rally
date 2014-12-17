@@ -1,6 +1,7 @@
 package com.cityrally.app.manager;
 
 import android.util.Log;
+import com.cityrally.app.game.Game;
 import com.cityrally.app.location.SimpleGeofence;
 import com.google.android.gms.location.Geofence;
 
@@ -111,6 +112,10 @@ public class Challenge implements Serializable {
 
     public SimpleGeofence getGeofence() {
         return Manager.game().getGeofenceWithId(this.geofenceId);
+    }
+
+    public Game getGame() {
+        return Manager.game().getGameWithId(this.gameId);
     }
 
     public void setResources(int image, int title, int subtitle, int text) {

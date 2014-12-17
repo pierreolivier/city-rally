@@ -1,25 +1,22 @@
 package com.cityrally.app.view;
 
 import android.content.Context;
-import android.location.Location;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.*;
 import com.cityrally.app.R;
+import com.cityrally.app.game.Game;
+import com.cityrally.app.game.GameResultListener;
 import com.cityrally.app.location.SimpleGeofence;
 import com.cityrally.app.manager.Challenge;
 import com.cityrally.app.manager.Manager;
-import com.google.android.gms.maps.model.Marker;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by po on 11/25/14.
@@ -40,7 +37,7 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.View
         public TextView mTitleView;
         public TextView mSubTitleView;
         public TextView mTextView;
-        public Button exploreButton;
+        public Button mExploreButton;
         public Button mSolveButton;
         public ImageView mSolvedView;
 
@@ -52,7 +49,7 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.View
             mTitleView = (TextView) v.findViewById(R.id.info_title);
             mSubTitleView = (TextView) v.findViewById(R.id.info_subtile);
             mTextView = (TextView) v.findViewById(R.id.info_text);
-            exploreButton = (Button) v.findViewById(R.id.exploreButton);
+            mExploreButton = (Button) v.findViewById(R.id.exploreButton);
             mSolveButton = (Button) v.findViewById(R.id.solveButton);
             mSolvedView = (ImageView) v.findViewById(R.id.info_solved);
         }
@@ -105,7 +102,7 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.View
             holder.mSolvedView.setVisibility(View.INVISIBLE);
         }
 
-        holder.exploreButton.setOnClickListener(new View.OnClickListener() {
+        holder.mExploreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (challenge.getId().equals("1")) {
@@ -117,6 +114,35 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.View
                 Manager.location().moveCamera(geofence.getLatitude(), geofence.getLongitude());
 
                 Manager.activity().getNavigationDrawerFragment().selectItem(0);
+            }
+        });
+
+        holder.mSolveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Game game = challenge.getGame();
+
+                if (game != null) {
+                    game.start(new GameResultListener() {
+                        @Override
+                        public void onResult(boolean success) {
+                            if (success && !challenge.isSolved()) {
+                                challenge.setSolved(true);
+                                Manager.game().saveChallenges();
+
+                                Manager.activity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (ChallengesFragment.mAdapter != null) {
+                                            ChallengesFragment.mAdapter.notifyDataSetChanged();
+                                        }
+                                    }
+                                });
+                            }
+                            Log.e("result", "" + success);
+                        }
+                    });
+                }
             }
         });
 
