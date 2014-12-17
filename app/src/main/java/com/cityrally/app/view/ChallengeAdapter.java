@@ -1,6 +1,10 @@
 package com.cityrally.app.view;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.provider.Settings;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -120,29 +124,44 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.View
         holder.mSolveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Game game = challenge.getGame();
+                final AlertDialog.Builder dialog = new AlertDialog.Builder(Manager.activity());
+                dialog.setCancelable(false);
+                dialog.setMessage(challenge.getTitle());
+                dialog.setPositiveButton(R.string.start, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        Game game = challenge.getGame();
 
-                if (game != null) {
-                    game.start(new GameResultListener() {
-                        @Override
-                        public void onResult(boolean success) {
-                            if (success && !challenge.isSolved()) {
-                                challenge.setSolved(true);
-                                Manager.game().saveChallenges();
+                        if (game != null) {
+                            game.start(new GameResultListener() {
+                                @Override
+                                public void onResult(boolean success) {
+                                    if (success && !challenge.isSolved()) {
+                                        challenge.setSolved(true);
+                                        Manager.game().saveChallenges();
 
-                                Manager.activity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        if (ChallengesFragment.mAdapter != null) {
-                                            ChallengesFragment.mAdapter.notifyDataSetChanged();
-                                        }
+                                        Manager.activity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if (ChallengesFragment.mAdapter != null) {
+                                                    ChallengesFragment.mAdapter.notifyDataSetChanged();
+                                                }
+                                            }
+                                        });
                                     }
-                                });
-                            }
-                            Log.e("result", "" + success);
+                                    Log.e("result", "" + success);
+                                }
+                            });
                         }
-                    });
-                }
+                    }
+                });
+                dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+
+                    }
+                });
+                dialog.show();
             }
         });
 
