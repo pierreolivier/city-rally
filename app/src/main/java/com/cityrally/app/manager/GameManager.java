@@ -2,6 +2,7 @@ package com.cityrally.app.manager;
 
 import android.widget.Toast;
 import com.cityrally.app.R;
+import com.cityrally.app.game.CompassGame;
 import com.cityrally.app.game.Game;
 import com.cityrally.app.game.PhotoGame;
 import com.cityrally.app.location.SimpleGeofence;
@@ -112,6 +113,7 @@ public class GameManager {
 
     private void initGames() {
         mGames.put("photo", new PhotoGame());
+        mGames.put("compass", new CompassGame());
     }
 
     public Collection<SimpleGeofence> getGeofences() {
