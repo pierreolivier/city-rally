@@ -1,6 +1,8 @@
 package com.cityrally.app.game.compass;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -11,6 +13,8 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.cityrally.app.R;
+import com.cityrally.app.game.CompassGame;
+import com.cityrally.app.manager.Manager;
 
 /**
  * Created by Pierre-Olivier on 18/12/2014.
@@ -28,6 +32,8 @@ public class CompassActivity  extends Activity implements SensorEventListener {
 
     TextView tvHeading;
 
+    private boolean mDone;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +47,8 @@ public class CompassActivity  extends Activity implements SensorEventListener {
 
         // initialize your android device sensor capabilities
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+
+        mDone = false;
     }
 
     @Override
@@ -58,6 +66,16 @@ public class CompassActivity  extends Activity implements SensorEventListener {
 
         // to stop the listener and save battery
         mSensorManager.unregisterListener(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (!mDone) {
+            CompassGame compassGame = (CompassGame) Manager.game().getGameWithId("compass");
+            compassGame.onResult(false);
+        }
     }
 
     @Override
@@ -86,6 +104,23 @@ public class CompassActivity  extends Activity implements SensorEventListener {
         image.startAnimation(ra);
         currentDegree = -degree;
 
+        if (degree >= 38 && degree <= 42) {
+            mSensorManager.unregisterListener(this);
+
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setCancelable(false);
+            dialog.setMessage("You found it!");
+            dialog.setPositiveButton("Back",  new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    CompassGame compassGame = (CompassGame) Manager.game().getGameWithId("compass");
+                    compassGame.onResult(true);
+                    mDone = true;
+                    finish();
+                }
+            });
+            dialog.show();
+        }
     }
 
     @Override

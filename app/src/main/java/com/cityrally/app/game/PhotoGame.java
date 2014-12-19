@@ -18,10 +18,4 @@ public class PhotoGame extends Game {
             Manager.activity().startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
-
-    public void onResult(boolean success) {
-        if (this.gameResultListener != null) {
-            this.gameResultListener.onResult(success);
-        }
-    }
 }

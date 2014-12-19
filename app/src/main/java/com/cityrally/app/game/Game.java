@@ -13,4 +13,10 @@ public abstract class Game {
 
         onStart();
     }
+
+    public void onResult(boolean success) {
+        if (this.gameResultListener != null) {
+            this.gameResultListener.onResult(success);
+        }
+    }
 }
