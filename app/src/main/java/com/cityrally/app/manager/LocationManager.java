@@ -103,7 +103,7 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
     public void onConnected(Bundle bundle) {
         Log.e("location m", "connected");
 
-        // mLocationClient.setMockMode(true);
+        mLocationClient.setMockMode(true);
 
         startLocationUpdate();
 
@@ -304,7 +304,7 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
     }
 
     public Location createLocation(double lat, double lng, float accuracy) {
-        Location newLocation = new Location("network");
+        Location newLocation = new Location("flp");
         newLocation.setLatitude(lat);
         newLocation.setLongitude(lng);
         newLocation.setTime(new Date().getTime());
@@ -315,7 +315,7 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
 
     public void setMockLocation(double latitude, double longitude) {
         Location location = createLocation(latitude, longitude, 3);
-        //mLocationClient.setMockLocation(location);
+        mLocationClient.setMockLocation(location);
         //onLocationChanged(location);
         //Log.e("mock", "new location");
     }
@@ -328,8 +328,16 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
                     setMockLocation(48.862662, 2.311180);
                     sleep(2000);
                     setMockLocation(48.862407, 2.301825);
-                    sleep(10000);
-                    setMockLocation(48.858596, 2.293757);
+                    sleep(6000);
+                    setMockLocation(48.858598, 2.293759);
+                    sleep(500);
+                    setMockLocation(48.858599, 2.293759);
+                    sleep(500);
+                    setMockLocation(48.858598, 2.293759);
+                    sleep(500);
+                    setMockLocation(48.858599, 2.293759);
+                    sleep(500);
+                    setMockLocation(48.858598, 2.293759);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

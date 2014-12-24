@@ -19,6 +19,7 @@ public class Challenge implements Serializable {
     private int title;
     private int subtitle;
     private int text;
+    private int challenge;
     private String geofenceId;
     private String gameId;
 
@@ -78,6 +79,14 @@ public class Challenge implements Serializable {
         this.text = text;
     }
 
+    public int getChallenge() {
+        return challenge;
+    }
+
+    public void setChallenge(int challenge) {
+        this.challenge = challenge;
+    }
+
     public String getGeofenceId() {
         return geofenceId;
     }
@@ -118,21 +127,25 @@ public class Challenge implements Serializable {
         return Manager.game().getGameWithId(this.gameId);
     }
 
-    public void setResources(int image, int title, int subtitle, int text) {
+    public void setResources(int image, int title, int subtitle, int text, int challenge) {
         this.image = image;
         this.title = title;
         this.subtitle = subtitle;
         this.text = text;
+        this.challenge = challenge;
     }
 
     @Override
     public String toString() {
         return "Challenge{" +
-                "image=" + image +
+                "id='" + id + '\'' +
+                ", image=" + image +
                 ", title=" + title +
                 ", subtitle=" + subtitle +
                 ", text=" + text +
+                ", challenge=" + challenge +
                 ", geofenceId='" + geofenceId + '\'' +
+                ", gameId='" + gameId + '\'' +
                 ", unlocked=" + unlocked +
                 ", solved=" + solved +
                 '}';

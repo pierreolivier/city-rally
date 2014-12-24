@@ -22,17 +22,23 @@
     <string name="c_title_1">Start with Paris</string>
     <string name="c_subtitle_1">Start with Paris</string>
     <string name="c_text_1">Paris is huge city with a lot of things to do! We will start with the Eiffel Tower.</string>
+    <string name="c_game_1">Take the best picture!</string>
 
     <string name="c_title_2">Paris step 2</string>
     <string name="c_subtitle_2">Paris step 2</string>
     <string name="c_text_2">blablabla blablablabl ablablablablablab lablablablab labla</string>
+    <string name="c_game_2">Find the right position!</string>
 
     <string name="c_title_3">Paris step 3</string>
     <string name="c_subtitle_3">Paris step 3</string>
     <string name="c_text_3">blablabla blablablabl ablablablablablab lablablablab labla</string>
+    <string name="c_game_3">BLABLA ?</string>
 
     <string name="m_title">Mistery</string>
     <string name="m_subtitle">Paris</string>
     <string name="m_text">blablabla blablablabl ablablablablablab lablablablab labla</string>
+    <string name="m_hint_1">BLABLA 1</string>
+    <string name="m_hint_2">BLABLA 2</string>
+    <string name="m_hint_3">BLABLA 3</string>
 
 </resources>

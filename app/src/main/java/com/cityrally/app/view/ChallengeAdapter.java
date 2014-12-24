@@ -3,8 +3,6 @@ package com.cityrally.app.view;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.provider.Settings;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -126,7 +124,7 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.View
             public void onClick(View view) {
                 final AlertDialog.Builder dialog = new AlertDialog.Builder(Manager.activity());
                 dialog.setCancelable(false);
-                dialog.setMessage(challenge.getTitle());
+                dialog.setMessage(challenge.getChallenge());
                 dialog.setPositiveButton(R.string.start, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface paramDialogInterface, int paramInt) {
