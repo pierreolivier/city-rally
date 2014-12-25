@@ -16,6 +16,7 @@
     <string name="retry">Retry</string>
     <string name="cancel">Cancel</string>
     <string name="start">Start</string>
+    <string name="wrong">Wrong answer!</string>
 
     <string name="challenge_unlocked">New challenge unlocked!</string>
 
@@ -33,6 +34,10 @@
     <string name="c_subtitle_3">Paris step 3</string>
     <string name="c_text_3">blablabla blablablabl ablablablablablab lablablablab labla</string>
     <string name="c_game_3">BLABLA ?</string>
+    <string name="c_game_3_question">BLABLA ?</string>
+    <string name="c_game_3_a1">ok 1</string>
+    <string name="c_game_3_a2">ok 2</string>
+    <string name="c_game_3_a3">ok 3</string>
 
     <string name="m_title">Mistery</string>
     <string name="m_subtitle">Paris</string>

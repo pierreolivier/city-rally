@@ -5,6 +5,7 @@ import com.cityrally.app.R;
 import com.cityrally.app.game.CompassGame;
 import com.cityrally.app.game.Game;
 import com.cityrally.app.game.PhotoGame;
+import com.cityrally.app.game.QuestionGame;
 import com.cityrally.app.location.SimpleGeofence;
 import com.cityrally.app.view.ChallengesFragment;
 import com.google.android.gms.location.Geofence;
@@ -88,14 +89,14 @@ public class GameManager {
 
         mGeofences.put("2", new SimpleGeofence( // arc de triomphe
                 "2",
-                48.873789, 2.295030,
-                50,
+                48.873685, 2.294943,
+                80,
                 GEOFENCE_EXPIRATION_TIME, Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT));
 
         mGeofences.put("3", new SimpleGeofence( // notre dame
                 "3",
-                48.853317, 2.348968,
-                100,
+                48.853158, 2.348973,
+                80,
                 GEOFENCE_EXPIRATION_TIME, Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT));
     }
 
@@ -114,6 +115,7 @@ public class GameManager {
     private void initGames() {
         mGames.put("photo", new PhotoGame());
         mGames.put("compass", new CompassGame());
+        mGames.put("question", new QuestionGame());
     }
 
     public Collection<SimpleGeofence> getGeofences() {

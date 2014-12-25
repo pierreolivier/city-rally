@@ -315,7 +315,8 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
 
     public void setMockLocation(double latitude, double longitude) {
         Location location = createLocation(latitude, longitude, 3);
-        mLocationClient.setMockLocation(location);
+        if (mLocationClient.isConnected())
+            mLocationClient.setMockLocation(location);
         //onLocationChanged(location);
         //Log.e("mock", "new location");
     }
@@ -338,6 +339,56 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
                     setMockLocation(48.858599, 2.293759);
                     sleep(500);
                     setMockLocation(48.858598, 2.293759);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    public void startScenario2() {
+        new Thread() {
+            public void run() {
+                try {
+                    sleep(2000);
+                    setMockLocation(48.863125, 2.287904);
+                    sleep(2000);
+                    setMockLocation(48.866146, 2.289535);
+                    sleep(6000);
+                    //setMockLocation(48.872469, 2.294041);
+                    sleep(500);
+                    setMockLocation(48.873683, 2.294942);
+                    sleep(500);
+                    setMockLocation(48.873684, 2.294942);
+                    sleep(500);
+                    setMockLocation(48.873683, 2.294942);
+                    sleep(500);
+                    setMockLocation(48.873684, 2.294942);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    public void startScenario3() {
+        new Thread() {
+            public void run() {
+                try {
+                    sleep(2000);
+                    setMockLocation(48.858537, 2.347964);
+                    sleep(2000);
+                    setMockLocation(48.855826, 2.350754);
+                    sleep(6000);
+                    setMockLocation(48.853158, 2.348973);
+                    sleep(500);
+                    setMockLocation(48.853157, 2.348973);
+                    sleep(500);
+                    setMockLocation(48.853158, 2.348973);
+                    sleep(500);
+                    setMockLocation(48.853157, 2.348973);
+                    sleep(500);
+                    setMockLocation(48.853158, 2.348973);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

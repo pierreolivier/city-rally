@@ -109,6 +109,10 @@ public class ChallengeAdapter extends RecyclerView.Adapter<ChallengeAdapter.View
             public void onClick(View view) {
                 if (challenge.getId().equals("1")) {
                     Manager.location().startScenario1();
+                } else if (challenge.getId().equals("2")) {
+                    Manager.location().startScenario2();
+                } else if (challenge.getId().equals("3")) {
+                    Manager.location().startScenario3();
                 }
 
                 SimpleGeofence geofence = challenge.getGeofence();

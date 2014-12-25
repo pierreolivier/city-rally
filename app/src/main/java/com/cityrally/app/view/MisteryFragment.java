@@ -51,19 +51,19 @@ public class MisteryFragment extends Fragment {
         if (challenge1.isSolved()) {
             hint1.setVisibility(View.VISIBLE);
         } else {
-            hint1.setVisibility(View.INVISIBLE);
+            hint1.setVisibility(View.GONE);
         }
 
         if (challenge2.isSolved()) {
             hint2.setVisibility(View.VISIBLE);
         } else {
-            hint2.setVisibility(View.INVISIBLE);
+            hint2.setVisibility(View.GONE);
         }
 
         if (challenge3.isSolved()) {
             hint3.setVisibility(View.VISIBLE);
         } else {
-            hint3.setVisibility(View.INVISIBLE);
+            hint3.setVisibility(View.GONE);
         }
 
         if (challenge1.isSolved() && challenge2.isSolved() && challenge3.isSolved()) {
