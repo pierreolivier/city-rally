@@ -14,9 +14,12 @@
     <string name="gps_network_not_enabled">The location service or the network are not enabled !</string>
     <string name="open_location_settings">Settings</string>
     <string name="retry">Retry</string>
+    <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
     <string name="start">Start</string>
     <string name="wrong">Wrong answer!</string>
+    <string name="try_again">Try again</string>
+    <string name="done">Done</string>
 
     <string name="challenge_unlocked">New challenge unlocked!</string>
 
@@ -45,5 +48,9 @@
     <string name="m_hint_1">BLABLA 1</string>
     <string name="m_hint_2">BLABLA 2</string>
     <string name="m_hint_3">BLABLA 3</string>
+    <string name="m_ask">Your answer</string>
+
+    <string name="m_answer">aa</string>
+    <string name="m_right_answer">Congratulation!</string>
 
 </resources>

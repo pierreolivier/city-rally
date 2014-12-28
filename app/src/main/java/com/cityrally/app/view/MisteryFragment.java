@@ -1,6 +1,8 @@
 package com.cityrally.app.view;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -8,9 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import com.cityrally.app.MainActivity;
 import com.cityrally.app.R;
+import com.cityrally.app.game.Game;
+import com.cityrally.app.game.GameResultListener;
 import com.cityrally.app.manager.Challenge;
 import com.cityrally.app.manager.Manager;
 
@@ -73,5 +78,51 @@ public class MisteryFragment extends Fragment {
             solveButton.setEnabled(false);
             solveButton.setTextColor(Manager.activity().getResources().getColor(R.color.locked_challenge));
         }
+
+        solveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+
+                alert.setTitle(R.string.m_title);
+                alert.setMessage(R.string.m_ask);
+
+                final EditText input = new EditText(getActivity());
+                alert.setView(input);
+
+                alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogI, int whichButton) {
+                        String value = input.getText().toString().toLowerCase();
+
+                        String message;
+                        String button;
+                        if (value.equals(getString(R.string.m_answer))) {
+                            message = getString(R.string.m_right_answer);
+                            button = getString(R.string.done);
+                        } else {
+                            message = getString(R.string.wrong);
+                            button = getString(R.string.try_again);
+                        }
+
+                        final AlertDialog.Builder dialog = new AlertDialog.Builder(Manager.activity());
+                        dialog.setCancelable(false);
+                        dialog.setMessage(message);
+                        dialog.setPositiveButton(button, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+
+                            }
+                        });
+                        dialog.show();
+                    }
+                });
+                alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled.
+                    }
+                });
+                alert.show();
+            }
+        });
     }
 }
