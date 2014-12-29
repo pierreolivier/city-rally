@@ -3,11 +3,15 @@ package com.cityrally.app.manager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import com.cityrally.app.location.ReceiveTransitionsIntentService;
 import com.cityrally.app.location.SimpleGeofence;
+import com.directions.route.Route;
+import com.directions.route.Routing;
+import com.directions.route.RoutingListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.*;
@@ -17,6 +21,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,7 +31,7 @@ import java.util.List;
 /**
  * Created by po on 10/14/14.
  */
-public class LocationManager implements GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, LocationClient.OnAddGeofencesResultListener, LocationClient.OnRemoveGeofencesResultListener {
+public class LocationManager implements GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, LocationClient.OnAddGeofencesResultListener, LocationClient.OnRemoveGeofencesResultListener, RoutingListener {
 
     private static final long UPDATE_INTERVAL = 3 * 1000;
     private static final long FASTEST_INTERVAL = 2 * 1000;
@@ -149,6 +154,10 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
             mMoveCamera = false;
             mCenterOnLocation = false;
             moveCamera(mMoveLatitude, mMoveLongitude);
+
+            Routing routing = new Routing(Routing.TravelMode.WALKING);
+            routing.registerListener(this);
+            routing.execute(new LatLng(location.getLatitude(), location.getLongitude()), new LatLng(mMoveLatitude, mMoveLongitude));
         } else if (mCenterOnLocation && mMap != null) {
             mCenterOnLocation = false;
             moveCamera(location);
@@ -327,7 +336,7 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
                 try {
                     sleep(2000);
                     setMockLocation(48.862662, 2.311180);
-                    sleep(2000);
+                    sleep(5000);
                     setMockLocation(48.862407, 2.301825);
                     sleep(6000);
                     setMockLocation(48.858598, 2.293759);
@@ -352,7 +361,7 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
                 try {
                     sleep(2000);
                     setMockLocation(48.863125, 2.287904);
-                    sleep(2000);
+                    sleep(5000);
                     setMockLocation(48.866146, 2.289535);
                     sleep(6000);
                     //setMockLocation(48.872469, 2.294041);
@@ -377,7 +386,7 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
                 try {
                     sleep(2000);
                     setMockLocation(48.858537, 2.347964);
-                    sleep(2000);
+                    sleep(5000);
                     setMockLocation(48.855826, 2.350754);
                     sleep(6000);
                     setMockLocation(48.853158, 2.348973);
@@ -394,5 +403,26 @@ public class LocationManager implements GooglePlayServicesClient.ConnectionCallb
                 }
             }
         }.start();
+    }
+
+    @Override
+    public void onRoutingFailure() {
+
+    }
+
+    @Override
+    public void onRoutingStart() {
+
+    }
+
+    @Override
+    public void onRoutingSuccess(PolylineOptions mPolyOptions, Route route) {
+        PolylineOptions polyoptions = new PolylineOptions();
+        polyoptions.color(Color.parseColor("#ff009bff"));
+        polyoptions.width(14);
+        polyoptions.addAll(mPolyOptions.getPoints());
+        if (mMap != null) {
+            mMap.addPolyline(polyoptions);
+        }
     }
 }

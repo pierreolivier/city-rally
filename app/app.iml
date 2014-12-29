@@ -89,5 +89,6 @@
     <orderEntry type="library" exported="" name="appcompat-v7-21.0.2" level="project" />
     <orderEntry type="library" exported="" name="play-services-6.1.71" level="project" />
     <orderEntry type="library" exported="" name="cardview-v7-21.0.2" level="project" />
+    <orderEntry type="module" module-name="Google-Directions-Android" exported="" />
   </component>
 </module>

@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/home/po/lux/city-rally/Google-Directions-Android/assets"/></dataSet><dataSet config="debug"><source path="/home/po/lux/city-rally/Google-Directions-Android/build-types/debug/assets"/></dataSet></merger>
