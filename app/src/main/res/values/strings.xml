@@ -4,7 +4,7 @@
     <string name="app_name">City Rally</string>
     <string name="title_section1">Map</string>
     <string name="title_section2">Challenges</string>
-    <string name="title_section3">Mistery</string>
+    <string name="title_section3">Mystery</string>
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
     <string name="action_example">Example action</string>
@@ -25,32 +25,32 @@
 
     <string name="c_title_1">Start with Paris</string>
     <string name="c_subtitle_1">Start with Paris</string>
-    <string name="c_text_1">Paris is huge city with a lot of things to do! We will start with the Eiffel Tower.</string>
+    <string name="c_text_1">Paris is a huge city with lots of things to do! Eiffel Tower, standing in the center of the city, is the most worthwhile monument to see. Made in 1889 for the Exposition Universelle for the 100th anniversary of the French Revolution. Let\'s start!</string>
     <string name="c_game_1">Take the best picture!</string>
 
-    <string name="c_title_2">Paris step 2</string>
-    <string name="c_subtitle_2">Paris step 2</string>
-    <string name="c_text_2">blablabla blablablabl ablablablablablab lablablablab labla</string>
+    <string name="c_title_2">Feel like a warrior</string>
+    <string name="c_subtitle_2">Feel like a warrior</string>
+    <string name="c_text_2">Standing in front of a huge door? You are definitely standing above the historical Arc de Triomphe, made by the architect Jean-François-Thérèse Chalgrin in 1806.</string>
     <string name="c_game_2">Find the right position!</string>
 
-    <string name="c_title_3">Paris step 3</string>
-    <string name="c_subtitle_3">Paris step 3</string>
-    <string name="c_text_3">blablabla blablablabl ablablablablablab lablablablab labla</string>
-    <string name="c_game_3">BLABLA ?</string>
-    <string name="c_game_3_question">BLABLA ?</string>
-    <string name="c_game_3_a1">ok 1</string>
-    <string name="c_game_3_a2">ok 2</string>
-    <string name="c_game_3_a3">ok 3</string>
+    <string name="c_title_3">It\'s a matter of religion</string>
+    <string name="c_subtitle_3">It\'s a matter of religion</string>
+    <string name="c_text_3">Sailing in the Seine, you will meet the Ile de la cité, the island where Notre-Dame is stated. It is about an enormous cathedral temple made in the middle of the 13th century and supposed to be one of the biggest church in the world.</string>
+    <string name="c_game_3">What is the name of the creator of Esmeralda ?</string>
+    <string name="c_game_3_question">What is the name of the creator of Esmeralda ?</string>
+    <string name="c_game_3_a1">Victor Fleming</string>
+    <string name="c_game_3_a2">Victor Hugo</string>
+    <string name="c_game_3_a3">Victor Emmanuel II</string>
 
-    <string name="m_title">Mistery</string>
+    <string name="m_title">Mystery</string>
     <string name="m_subtitle">Paris</string>
-    <string name="m_text">blablabla blablablabl ablablablablablab lablablablab labla</string>
-    <string name="m_hint_1">BLABLA 1</string>
-    <string name="m_hint_2">BLABLA 2</string>
-    <string name="m_hint_3">BLABLA 3</string>
-    <string name="m_ask">Your answer</string>
+    <string name="m_text"></string>
+    <string name="m_hint_1">Born in Corsica in 1769</string>
+    <string name="m_hint_2">Emperor of the French</string>
+    <string name="m_hint_3">Spouse of Joséphine de Beauharnais</string>
+    <string name="m_ask"></string>
 
-    <string name="m_answer">aa</string>
-    <string name="m_right_answer">Congratulation!</string>
+    <string name="m_answer">napoleon</string>
+    <string name="m_right_answer">Congratulations!</string>
 
 </resources>

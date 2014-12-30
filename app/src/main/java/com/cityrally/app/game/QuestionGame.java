@@ -30,7 +30,7 @@ public class QuestionGame extends Game {
             public void onClick(DialogInterface dialog, int which) {
                 String strName = arrayAdapter.getItem(which);
 
-                if (!strName.equals(Manager.activity().getString(R.string.c_game_3_a1))) {
+                if (!strName.equals(Manager.activity().getString(R.string.c_game_3_a2))) {
                     AlertDialog.Builder builderInner = new AlertDialog.Builder(Manager.activity());
                     builderInner.setMessage(R.string.wrong);
                     builderInner.setPositiveButton("OK", new DialogInterface.OnClickListener() {

@@ -11,7 +11,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="40dp"
         android:layout_marginTop="20dp"
-        android:text="blabla" />
+        android:text="blabla"
+        android:visibility="invisible"/>
 
     <ImageView
         android:id="@+id/imageViewCompass"
