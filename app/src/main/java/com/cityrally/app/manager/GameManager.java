@@ -36,7 +36,7 @@ public class GameManager {
         initGeofences();
 
         mChallenges = new HashMap<String, Challenge>();
-        //loadChallenges();
+        loadChallenges();
         if (mChallenges.size() == 0) {
             initChallenges();
         }
