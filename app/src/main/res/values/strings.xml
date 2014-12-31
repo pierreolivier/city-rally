@@ -25,12 +25,12 @@
 
     <string name="c_title_1">Start with Paris</string>
     <string name="c_subtitle_1">Start with Paris</string>
-    <string name="c_text_1">Paris is a huge city with lots of things to do! Eiffel Tower, standing in the center of the city, is the most worthwhile monument to see. Made in 1889 for the Exposition Universelle for the 100th anniversary of the French Revolution. Let\'s start!</string>
+    <string name="c_text_1">Paris is a huge city with lots of places to go and things to admire! Eiffel Tower, standing in the center of the city, is the most worthwhile monument to see. Made in 1889 for the Exposition Universelle for the 100th anniversary of the French Revolution, Eiffel tower is 324 meters tall. Let\'s start!</string>
     <string name="c_game_1">Take the best picture!</string>
 
     <string name="c_title_2">Feel like a warrior</string>
     <string name="c_subtitle_2">Feel like a warrior</string>
-    <string name="c_text_2">Standing in front of a huge door? You are definitely standing above the historical Arc de Triomphe, made by the architect Jean-François-Thérèse Chalgrin in 1806.</string>
+    <string name="c_text_2">Standing in front of a huge door? You are definitely standing above the historical Arc de Triomphe, stated in the middle of the Place de l\'Étoile, was made by the architect Jean-François-Thérèse Chalgrin in 1806 and symbolizes the victory of the Austerlitz\'s battle.</string>
     <string name="c_game_2">Find the right position!</string>
 
     <string name="c_title_3">It\'s a matter of religion</string>
@@ -44,7 +44,7 @@
 
     <string name="m_title">Mystery</string>
     <string name="m_subtitle">Paris</string>
-    <string name="m_text"></string>
+    <string name="m_text">Reveal the hints for every challenge</string>
     <string name="m_hint_1">Born in Corsica in 1769</string>
     <string name="m_hint_2">Emperor of the French</string>
     <string name="m_hint_3">Spouse of Joséphine de Beauharnais</string>
